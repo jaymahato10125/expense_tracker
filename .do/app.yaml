@@ -1,0 +1,28 @@
+spec:
+  name: expense-tracker
+  services:
+    - name: client
+      source_dir: client
+      github:
+        branch: main
+        deploy_on_push: true
+      build_command: npm install && npm run build
+  run_command: serve -s dist -l 8080
+      http_port: 8080
+      routes:
+        - path: /
+      envs: []
+    - name: server
+      source_dir: server
+      github:
+        branch: main
+        deploy_on_push: true
+      build_command: npm install
+      run_command: npm start
+      http_port: 5000
+      routes:
+        - path: /api
+      envs:
+        - key: PORT
+          value: "5000"
+          scope: RUN_TIME
