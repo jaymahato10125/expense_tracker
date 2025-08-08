@@ -18,7 +18,7 @@ export default function Signup() {
     setLoading(true)
     setError('')
     try {
-      const { data } = await api.post('/api/auth/signup', { name, email, password })
+  const { data } = await api.post('/auth/signup', { name, email, password })
       setToken(data.token)
       setUser(data.user)
       navigate('/dashboard', { replace: true })

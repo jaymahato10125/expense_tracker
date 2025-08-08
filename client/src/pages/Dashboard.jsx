@@ -12,7 +12,7 @@ export default function Dashboard() {
   useEffect(() => {
     ;(async () => {
       try {
-        const { data } = await api.get('/api/transactions')
+  const { data } = await api.get('/transactions')
         setData(data)
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load')

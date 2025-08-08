@@ -18,7 +18,7 @@ export default function Login() {
     setLoading(true)
     setError('')
     try {
-      const { data } = await api.post('/api/auth/login', { email, password })
+  const { data } = await api.post('/auth/login', { email, password })
       setToken(data.token)
       setUser(data.user)
       const to = location.state?.from?.pathname || '/dashboard'

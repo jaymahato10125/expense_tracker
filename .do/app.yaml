@@ -38,5 +38,5 @@ spec:
           value: ""
           scope: RUN_TIME
         - key: CORS_ORIGIN
-          value: "https://YOUR-CLIENT-DOMAIN"
+          value: "https://walrus-app-s4zqu.ondigitalocean.app"
           scope: RUN_TIME

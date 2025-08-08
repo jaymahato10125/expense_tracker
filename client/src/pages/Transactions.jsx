@@ -21,7 +21,7 @@ export default function Transactions() {
   const load = async () => {
     setLoading(true)
     try {
-      const { data } = await api.get('/api/transactions', { params: filters })
+  const { data } = await api.get('/transactions', { params: filters })
       setItems(data.items)
       setTotals(data.totals)
     } catch (err) {
@@ -39,7 +39,7 @@ export default function Transactions() {
     e.preventDefault()
     try {
       const payload = { ...form, amount: parseFloat(form.amount) }
-      await api.post('/api/transactions', payload)
+  await api.post('/transactions', payload)
       setForm({ title: '', amount: '', type: form.type, category: '', date: form.date })
       load()
     } catch (err) {
@@ -49,12 +49,12 @@ export default function Transactions() {
 
   const onDelete = async (id) => {
     if (!confirm('Delete this transaction?')) return
-    await api.delete(`/api/transactions/${id}`)
+  await api.delete(`/transactions/${id}`)
     load()
   }
 
   const onUpdate = async (id, patch) => {
-    await api.put(`/api/transactions/${id}`, patch)
+  await api.put(`/transactions/${id}`, patch)
     load()
   }
 
