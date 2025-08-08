@@ -35,15 +35,15 @@ app.use(
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Health
-app.get('/api/health', (req, res) => {
+// Health (support both with and without '/api' prefix)
+app.get(['/api/health', '/health'], (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/profile', profileRoutes);
+// Routes (support both with and without '/api' prefix)
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/transactions', '/transactions'], transactionRoutes);
+app.use(['/api/profile', '/profile'], profileRoutes);
 
 // Errors
 app.use(notFound);
