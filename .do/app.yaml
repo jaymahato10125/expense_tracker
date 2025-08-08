@@ -6,18 +6,21 @@ spec:
       github:
         branch: main
         deploy_on_push: true
-      build_command: npm install && npm run build
-  run_command: serve -s dist -l 8080
+      build_command: npm ci && npm run build
+      run_command: npx serve -s dist -l 8080
       http_port: 8080
       routes:
         - path: /
-      envs: []
+      envs:
+        - key: VITE_API_URL
+          value: "/api"
+          scope: RUN_AND_BUILD_TIME
     - name: server
       source_dir: server
       github:
         branch: main
         deploy_on_push: true
-      build_command: npm install
+      build_command: npm ci
       run_command: npm start
       http_port: 5000
       routes:
@@ -25,4 +28,13 @@ spec:
       envs:
         - key: PORT
           value: "5000"
+          scope: RUN_TIME
+        - key: MONGO_URI
+          value: ""
+          scope: RUN_TIME
+        - key: JWT_SECRET
+          value: ""
+          scope: RUN_TIME
+        - key: CORS_ORIGIN
+          value: "https://YOUR-CLIENT-DOMAIN"
           scope: RUN_TIME
