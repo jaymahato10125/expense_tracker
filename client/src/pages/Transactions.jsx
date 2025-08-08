@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
 import api from '../api/axios'
 
 export default function Transactions() {
@@ -66,7 +67,7 @@ export default function Transactions() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Transactions</h1>
 
-      <div className="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="card p-4">
         <h2 className="font-medium mb-2">Add Transaction</h2>
         <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-6 gap-2">
           <input
@@ -107,11 +108,11 @@ export default function Transactions() {
             onChange={(e) => setForm({ ...form, date: e.target.value })}
             required
           />
-          <button className="px-3 py-2 rounded bg-blue-600 text-white">Add</button>
+      <button className="btn btn-primary">Add</button>
         </form>
-      </div>
+    </motion.div>
 
-      <div className="bg-white dark:bg-gray-800 rounded shadow p-4">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="card p-4">
         <h2 className="font-medium mb-2">Filters</h2>
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
           <select
@@ -138,11 +139,11 @@ export default function Transactions() {
             onChange={(e) => setFilters({ ...filters, end: e.target.value })}
           />
           <div className="flex gap-2">
-            <button className="px-3 py-2 rounded bg-gray-200 dark:bg-gray-700" onClick={load}>
+            <button className="btn btn-ghost" onClick={load}>
               Apply
             </button>
             <button
-              className="px-3 py-2 rounded bg-gray-200 dark:bg-gray-700"
+              className="btn btn-ghost"
               onClick={() => {
                 setFilters({ category: '', start: '', end: '' })
                 load()
@@ -152,9 +153,9 @@ export default function Transactions() {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card p-4">
         <h2 className="font-medium mb-2">List</h2>
         {loading ? (
           <p>Loading...</p>
@@ -250,13 +251,13 @@ export default function Transactions() {
                                 await onUpdate(t._id, payload)
                                 setEditId(null)
                               }}
-                              className="px-2 py-1 rounded bg-green-600 text-white"
+                              className="btn btn-primary"
                             >
                               Save
                             </button>
                             <button
                               onClick={() => setEditId(null)}
-                              className="px-2 py-1 rounded bg-gray-300 dark:bg-gray-700"
+                              className="btn btn-ghost"
                             >
                               Cancel
                             </button>
@@ -274,19 +275,19 @@ export default function Transactions() {
                                   date: new Date(t.date).toISOString().slice(0, 10),
                                 })
                               }}
-                              className="px-2 py-1 rounded bg-blue-600 text-white"
+                              className="btn btn-primary"
                             >
                               Edit
                             </button>
                             <button
                               onClick={() => onUpdate(t._id, { type: t.type === 'Expense' ? 'Income' : 'Expense' })}
-                              className="px-2 py-1 rounded bg-yellow-500 text-white"
+                              className="btn btn-ghost"
                             >
                               Toggle Type
                             </button>
                             <button
                               onClick={() => onDelete(t._id)}
-                              className="px-2 py-1 rounded bg-red-600 text-white"
+                              className="btn btn-danger"
                             >
                               Delete
                             </button>
@@ -312,7 +313,7 @@ export default function Transactions() {
             <span className="text-gray-500">Balance:</span> ${totals.balance.toFixed(2)}
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

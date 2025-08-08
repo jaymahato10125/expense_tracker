@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 export default function Navbar() {
   const { isAuthed, setToken, setUser, user } = useAuth()
@@ -28,66 +29,76 @@ export default function Navbar() {
     navigate('/login')
   }
 
-  const NavLink = ({ to, children }) => (
-    <Link
-      to={to}
-      className={`px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 ${
-        pathname === to ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-200'
-      }`}
-    >
-      {children}
-    </Link>
-  )
+  const NavLink = ({ to, children, activeClass = '', inactiveClass = '' }) => {
+    const base = 'px-3 py-2 rounded-md text-sm font-medium transition-colors';
+    const isActive = pathname === to;
+    return (
+      <Link to={to} className={`${base} ${isActive ? activeClass : inactiveClass}`}>
+        {children}
+      </Link>
+    )
+  }
 
   return (
-    <header className="border-b border-gray-200 dark:border-gray-800 bg-white/70 dark:bg-gray-950/70 backdrop-blur">
-      <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="font-semibold text-lg text-gray-900 dark:text-gray-100">
+    <header className="bg-gradient-to-r from-brand-600 via-brand-500 to-brand-600">
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="container py-3 flex items-center justify-between"
+      >
+        <Link to="/" className="font-semibold text-lg text-white tracking-tight">
           ExpenseTracker
         </Link>
         <nav className="flex items-center gap-2">
           {isAuthed && (
             <>
-              <NavLink to="/dashboard">Dashboard</NavLink>
-              <NavLink to="/transactions">Transactions</NavLink>
+              <NavLink
+                to="/dashboard"
+                activeClass="text-emerald-200 underline decoration-emerald-300 underline-offset-4"
+                inactiveClass="text-emerald-100/90 hover:text-emerald-50"
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="/transactions"
+                activeClass="text-amber-200 underline decoration-amber-300 underline-offset-4"
+                inactiveClass="text-amber-100/90 hover:text-amber-50"
+              >
+                Transactions
+              </NavLink>
             </>
           )}
         </nav>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setDark((d) => !d)}
-            className="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200"
+            className="btn btn-ghost text-white/90 border border-white/20"
             aria-label="Toggle theme"
           >
             {dark ? '🌙' : '☀️'}
           </button>
           {isAuthed ? (
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600 dark:text-gray-300 hidden sm:inline">
+              <span className="text-sm text-white/90 hidden sm:inline">
                 {user?.name || user?.email}
               </span>
-              <button
-                onClick={logout}
-                className="px-3 py-1.5 text-sm rounded bg-red-600 text-white hover:bg-red-700"
-              >
+              <button onClick={logout} className="btn btn-danger">
                 Logout
               </button>
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Link
-                to="/login"
-                className="px-3 py-1.5 text-sm rounded border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200"
-              >
+              <Link to="/login" className="btn btn-ghost text-white/90 border border-white/20">
                 Login
               </Link>
-              <Link to="/signup" className="px-3 py-1.5 text-sm rounded bg-blue-600 text-white hover:bg-blue-700">
+              <Link to="/signup" className="btn btn-primary shadow">
                 Sign Up
               </Link>
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
     </header>
   )
 }

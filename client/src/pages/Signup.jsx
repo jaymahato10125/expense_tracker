@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../api/axios'
 import { useAuth } from '../context/AuthContext'
@@ -29,7 +30,8 @@ export default function Signup() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded shadow">
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
+      className="max-w-md mx-auto mt-10 card p-6">
       <h1 className="text-2xl font-semibold mb-4">Create account</h1>
       {error && <div className="mb-3 text-red-600 text-sm">{error}</div>}
       <form onSubmit={onSubmit} className="space-y-3">
@@ -57,17 +59,13 @@ export default function Signup() {
           className="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-700 bg-transparent"
           required
         />
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
-        >
+    <button type="submit" disabled={loading} className="w-full btn btn-primary disabled:opacity-60">
           {loading ? 'Creating...' : 'Sign Up'}
         </button>
       </form>
       <p className="text-sm text-gray-600 dark:text-gray-300 mt-3">
         Have an account? <Link to="/login" className="text-blue-600">Login</Link>
       </p>
-    </div>
+  </motion.div>
   )
 }
